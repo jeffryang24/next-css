@@ -1,6 +1,6 @@
 {
   "name": "@zeit/next-css",
-  "version": "1.0.0",
+  "version": "2.0.0-custom",
   "main": "index.js",
   "license": "MIT",
   "repository": "jeffryang24/next-css",
