@@ -1,6 +1,6 @@
 {
   "name": "@zeit/next-css",
-  "version": "0.2.1-canary.4",
+  "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
   "repository": "jeffryang24/next-css",
