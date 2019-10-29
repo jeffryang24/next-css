@@ -1,22 +1,23 @@
-# Next.js + CSS
+# Next.js + CSS (Modded :trollface:)
 
-Import `.css` files in your Next.js project
+- Import `.css` files (for pure css) in your Next.js project, such us: `import 'path/to/style.css';`.
+- Import `.module.css` files (for css module) in your Next.js project, such us: `import Style from 'path/to/style.module.css';`. **(Note: You must enable `cssModules` to use this feature)**
 
 ## Installation
 
 ```
-npm install --save @zeit/next-css
+npm install jeffryang24/next-css
 ```
 
 or
 
 ```
-yarn add @zeit/next-css
+yarn add jeffryang24/next-css
 ```
 
 ## Usage
 
-The stylesheet is compiled to `.next/static/css`. Next.js will automatically add the css file to the HTML. 
+The stylesheet is compiled to `.next/static/css`. Next.js will automatically add the css file to the HTML.
 In production a chunk hash is added so that styles are updated when a new version of the stylesheet is deployed.
 
 ### Without CSS modules
@@ -26,6 +27,10 @@ Create a `next.config.js` in the root of your project (next to pages/ and packag
 ```js
 // next.config.js
 const withCSS = require('@zeit/next-css')
+// Without config
+module.exports = withCSS()
+
+// Or with config
 module.exports = withCSS({
   /* config options here */
 })
@@ -42,14 +47,16 @@ Create a CSS file `style.css`
 Create a page file `pages/index.js`
 
 ```js
-import "../style.css"
+import '../style.css'
 
 export default () => <div className="example">Hello World!</div>
 ```
 
-__Note: CSS files can _not_ be imported into your [`_document.js`](https://github.com/zeit/next.js#custom-document). You can use the [`_app.js`](https://github.com/zeit/next.js#custom-app) instead or any other page.__
+**Note: CSS files can _not_ be imported into your [`_document.js`](https://github.com/zeit/next.js#custom-document). You can use the [`_app.js`](https://github.com/zeit/next.js#custom-app) instead or any other page.**
 
 ### With CSS modules
+
+> Note: Enable css modules also enables basic css support.
 
 ```js
 // next.config.js
@@ -59,7 +66,7 @@ module.exports = withCSS({
 })
 ```
 
-Create a CSS file `style.css`
+Create a CSS file `style.module.css`
 
 ```css
 .example {
@@ -70,7 +77,7 @@ Create a CSS file `style.css`
 Create a page file `pages/index.js`
 
 ```js
-import css from "../style.css"
+import css from '../style.module.css'
 
 export default () => <div className={css.example}>Hello World!</div>
 ```
@@ -88,12 +95,12 @@ module.exports = withCSS({
   cssModules: true,
   cssLoaderOptions: {
     importLoaders: 1,
-    localIdentName: "[local]___[hash:base64:5]",
+    localIdentName: '[local]___[hash:base64:5]'
   }
 })
 ```
 
-Create a CSS file `styles.css`
+Create a CSS file `styles.module.css`
 
 ```css
 .example {
@@ -104,14 +111,10 @@ Create a CSS file `styles.css`
 Create a page file `pages/index.js` that imports your stylesheet and uses the hashed class name from the stylesheet
 
 ```js
-import css from "../style.css"
+import css from '../style.module.css'
 
 const Component = props => {
-  return (
-    <div className={css.example}>
-      ...
-    </div>
-  )
+  return <div className={css.example}>...</div>
 }
 
 export default Component
@@ -177,8 +180,6 @@ module.exports = withCSS({
   }
 })
 ```
-
-
 
 ### Configuring Next.js
 
