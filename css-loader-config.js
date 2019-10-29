@@ -7,15 +7,7 @@ let extractCssInitialized = false
 
 module.exports = (
   config,
-  {
-    extensions = [],
-    cssModules = false,
-    cssLoaderOptions = {},
-    dev,
-    isServer,
-    postcssLoaderOptions = {},
-    loaders = []
-  }
+  { extensions = [], cssModules = false, cssLoaderOptions = {}, dev, isServer, postcssLoaderOptions = {}, loaders = [] }
 ) => {
   // We have to keep a list of extensions for the splitchunk config
   for (const extension of extensions) {
@@ -36,12 +28,8 @@ module.exports = (
       new ExtractCssChunks({
         // Options similar to the same options in webpackOptions.output
         // both options are optional
-        filename: dev
-          ? 'static/chunks/[name].css'
-          : 'static/chunks/[name].[contenthash:8].css',
-        chunkFilename: dev
-          ? 'static/chunks/[name].chunk.css'
-          : 'static/chunks/[name].[contenthash:8].chunk.css',
+        filename: dev ? 'static/chunks/[name].css' : 'static/chunks/[name].[contenthash:8].css',
+        chunkFilename: dev ? 'static/chunks/[name].chunk.css' : 'static/chunks/[name].[contenthash:8].chunk.css',
         hot: dev
       })
     )
@@ -69,11 +57,7 @@ module.exports = (
 
   if (postcssConfigPath) {
     // Copy the postcss-loader config options first.
-    const postcssOptionsConfig = Object.assign(
-      {},
-      postcssLoaderOptions.config,
-      { path: postcssConfigPath }
-    )
+    const postcssOptionsConfig = Object.assign({}, postcssLoaderOptions.config, { path: postcssConfigPath })
 
     postcssLoader = {
       loader: 'postcss-loader',
@@ -91,7 +75,7 @@ module.exports = (
         modules: cssModules,
         sourceMap: dev,
         importLoaders: loaders.length + (postcssLoader ? 1 : 0),
-        exportOnlyLocals: isServer
+        onlyLocals: isServer
       },
       cssLoaderOptions
     )
@@ -107,10 +91,5 @@ module.exports = (
     return [cssLoader, postcssLoader, ...loaders].filter(Boolean)
   }
 
-  return [
-    !isServer && ExtractCssChunks.loader,
-    cssLoader,
-    postcssLoader,
-    ...loaders
-  ].filter(Boolean)
+  return [!isServer && ExtractCssChunks.loader, cssLoader, postcssLoader, ...loaders].filter(Boolean)
 }
